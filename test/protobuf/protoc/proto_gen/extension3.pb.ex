@@ -14,7 +14,7 @@ defmodule Ext.MyEventMessage do
 
   def message_options do
     # credo:disable-for-next-line
-    "[\"{\\\"is_event\\\":true}\"]"
+    [%{is_event: true}]
   end
 
   field :f1, 1, type: Google.Protobuf.DoubleValue, options: [extype: "float"]
