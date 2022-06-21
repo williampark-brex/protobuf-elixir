@@ -3,10 +3,10 @@ syntax = "proto3";
 package ext;
 
 import "brex_elixirpb.proto";
-import "events/brex_events_elixirpb.proto";
+import "events/brex_events_extensions.proto";
 import "google/protobuf/wrappers.proto";
 
 message MyEventMessage {
-  option (brex.events.elixirpb.message).is_event = true;
+  option (brex.events.extension.message).is_event = true;
   google.protobuf.DoubleValue f1 = 1 [(brex.elixirpb.field).extype="float"];
 }

@@ -43,6 +43,6 @@ gen-protos: protoc-gen-elixir
 	protoc -I src -I test/protobuf/protoc/proto --elixir_out=custom_field_options=true:test/protobuf/protoc/proto_gen --plugin=./protoc-gen-elixir test/protobuf/protoc/proto/enum_options.proto
 	protoc -I src --elixir_out=lib --plugin=./protoc-gen-elixir elixirpb.proto
 	protoc -I src --elixir_out=lib --plugin=./protoc-gen-elixir brex_elixirpb.proto
-	protoc -I src  -I test/protobuf/protoc/proto/events --elixir_out=lib --plugin=./protoc-gen-elixir brex_events_elixirpb.proto
+	protoc -I src  -I test/protobuf/protoc/proto/events --elixir_out=lib --plugin=./protoc-gen-elixir brex_events_extensions.proto
 
 .PHONY: clean gen_google_proto gen_test_protos

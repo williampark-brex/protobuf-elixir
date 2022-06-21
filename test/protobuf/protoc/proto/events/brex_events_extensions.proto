@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+package brex.events.extension;
+import "google/protobuf/descriptor.proto";
+
+// Brex Events Extension
+// Defines options related to brex events.
+
+message MessageOptions {
+  optional bool is_event = 1;
+}
+
+extend google.protobuf.MessageOptions {
+  optional MessageOptions message = 65011;
+}
