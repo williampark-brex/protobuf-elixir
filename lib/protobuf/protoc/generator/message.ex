@@ -21,16 +21,17 @@ defmodule Protobuf.Protoc.Generator.Message do
 
   def parse_desc(%{namespace: ns} = ctx, desc) do
     new_ns = ns ++ [Util.trans_name(desc.name)]
-
     fields = get_fields(ctx, desc)
     extensions = get_extensions(desc)
     generate_desc = if ctx.gen_descriptors?, do: desc, else: nil
     full_name = Util.join_name([ctx.package | ctx.namespace] ++ [desc.name])
+    message_options = cal_message_options(desc.options)
 
     %{
       new_namespace: new_ns,
       name: Util.mod_name(ctx, new_ns),
       full_name: full_name,
+      message_options: message_options,
       options: msg_opts_str(ctx, desc.options),
       structs: structs_str(desc, extensions),
       typespec: typespec_str(ctx, fields, desc.oneof_decl, extensions),
@@ -46,6 +47,7 @@ defmodule Protobuf.Protoc.Generator.Message do
     Protobuf.Protoc.Template.message(
       msg_struct[:name],
       msg_struct[:full_name],
+      msg_struct[:message_options],
       msg_struct[:options],
       msg_struct[:structs],
       msg_struct[:typespec],
@@ -355,4 +357,23 @@ defmodule Protobuf.Protoc.Generator.Message do
   end
 
   defp put_json_name(opts, _syntax, _props), do: opts
+
+  defp cal_message_options(%Google.Protobuf.MessageOptions{__pb_extensions__: pb_extensions} = options) do
+    Enum.reduce(pb_extensions, [], fn {{ext_mod, name_atom}, _}, acc ->
+      options
+      |> Google.Protobuf.MessageOptions.get_extension(ext_mod, name_atom)
+      |> case do
+        nil ->
+          acc
+
+        opt ->
+          [Map.from_struct(opt) | acc]
+      end
+    end)
+    |> inspect(limit: :infinity)
+  end
+
+  defp cal_message_options(_opts) do
+    nil
+  end
 end

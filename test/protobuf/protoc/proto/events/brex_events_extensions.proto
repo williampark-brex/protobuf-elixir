@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+package brex.events.extension;
+import "google/protobuf/descriptor.proto";
+
+// Brex Events Extension
+// Defines whether the proto message is an Event message.
+// For example:
+// message MyEventMessage {
+//  option (brex.events.extension.message).is_event = true;
+// }
+
+message MessageOptions {
+  optional bool is_event = 1;
+}
+
+extend google.protobuf.MessageOptions {
+  optional MessageOptions message = 65011;
+}

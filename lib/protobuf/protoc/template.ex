@@ -14,6 +14,7 @@ defmodule Protobuf.Protoc.Template do
     [
       :name,
       :full_name,
+      :message_options,
       :options,
       :struct_fields,
       :typespec,
