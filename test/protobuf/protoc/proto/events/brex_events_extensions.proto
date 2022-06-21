@@ -4,7 +4,11 @@ package brex.events.extension;
 import "google/protobuf/descriptor.proto";
 
 // Brex Events Extension
-// Defines options related to brex events.
+// Defines whether the proto message is an Event message.
+// For example:
+// message MyEventMessage {
+//  option (brex.events.extension.message).is_event = true;
+// }
 
 message MessageOptions {
   optional bool is_event = 1;
