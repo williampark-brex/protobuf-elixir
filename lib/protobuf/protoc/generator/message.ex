@@ -370,7 +370,12 @@ defmodule Protobuf.Protoc.Generator.Message do
           [Map.from_struct(opt) | acc]
       end
     end)
-    |> inspect(limit: :infinity)
+    |> case do
+      [] ->
+        nil
+      opts ->
+        inspect(opts, limit: :infinity)
+    end
   end
 
   defp cal_message_options(_opts) do
