@@ -10,3 +10,7 @@ message MyEventMessage {
   option (brex.events.extension.message).is_event = true;
   google.protobuf.DoubleValue f1 = 1 [(brex.elixirpb.field).extype="float"];
 }
+
+message MyNonEventMessage {
+  map<string, string> args = 1;
+}
