@@ -358,10 +358,6 @@ defmodule Protobuf.Protoc.Generator.Message do
 
   defp put_json_name(opts, _syntax, _props), do: opts
 
-  defp cal_message_options(%Google.Protobuf.MessageOptions{__pb_extensions__: %{}}) do
-    nil
-  end
-
   defp cal_message_options(%Google.Protobuf.MessageOptions{__pb_extensions__: pb_extensions} = options) do
     Enum.reduce(pb_extensions, [], fn {{ext_mod, name_atom}, _}, acc ->
       options
@@ -374,7 +370,12 @@ defmodule Protobuf.Protoc.Generator.Message do
           [Map.from_struct(opt) | acc]
       end
     end)
-    |> inspect(limit: :infinity)
+    |> case do
+      [] ->
+        nil
+      opts ->
+        inspect(opts, limit: :infinity)
+    end
   end
 
   defp cal_message_options(_opts) do
